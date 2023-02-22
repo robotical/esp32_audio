@@ -8,7 +8,7 @@
 #include "SampleSource.h"
 #include "I2SOutput.h"
 
-// number of frames to try and send at once (a frame is a left and right sample)
+// number of frames to try and send at once
 #define NUM_FRAMES_TO_SEND 512
 
 void i2sWriterTask(void *param)
@@ -33,7 +33,7 @@ void i2sWriterTask(void *param)
                         // get some frames from the wave file - a frame consists of a 16 bit left and right sample
                         output->m_sample_generator->getFrames(frames, NUM_FRAMES_TO_SEND);
                         // how maby bytes do we now have to send
-                        availableBytes = NUM_FRAMES_TO_SEND * sizeof(uint32_t);
+                        availableBytes = NUM_FRAMES_TO_SEND * sizeof(Frame_t);
                         // reset the buffer position back to the start
                         buffer_position = 0;
                     }
@@ -60,7 +60,7 @@ void I2SOutput::start(i2s_port_t i2sPort, i2s_pin_config_t &i2sPins, SampleSourc
         .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX),
         .sample_rate = m_sample_generator->sampleRate(),
         .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
-        .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
+        .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
         .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S),
         .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
         .dma_buf_count = 4,
