@@ -5,8 +5,8 @@
 
 typedef struct
 {
-    uint16_t left;
-    uint16_t right;
+    uint16_t sample1;
+    uint16_t sample2;
 } Frame_t;
 
 /**
