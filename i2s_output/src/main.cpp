@@ -26,7 +26,7 @@ void setup()
 
   //sampleSource = new SinWaveGenerator(40000, 1000, 0.75);
 
-  sampleSource = new WAVFileReader("/marty_soundtest.wav");
+  sampleSource = new WAVFileReader("/marty_soundtest_44100.wav");
 
   Serial.println("Starting I2S Output");
   output = new I2SOutput();
