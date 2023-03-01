@@ -38,8 +38,9 @@ WAVFileReader::WAVFileReader(const char *file_name)
     // read the WAV header
     wav_header_t wav_header;
     m_file.read((uint8_t *)&wav_header, sizeof(wav_header_t));
+    
     // sanity check the bit depth
-    if (wav_header.bit_depth != 16)
+    if (wav_header.bit_depth != 8 && wav_header.bit_depth != 16)
     {
         Serial.printf("ERROR: bit depth %d is not supported\n", wav_header.bit_depth);
     }
@@ -49,6 +50,7 @@ WAVFileReader::WAVFileReader(const char *file_name)
 
     m_num_channels = wav_header.num_channels;
     m_sample_rate = wav_header.sample_rate;
+    m_bit_depth = wav_header.bit_depth;
 }
 
 WAVFileReader::~WAVFileReader()
@@ -67,8 +69,18 @@ void WAVFileReader::getFrames(Frame_t *frames, int number_frames)
             m_file.seek(44);
         }
         // read in the next samples
-        m_file.read((uint8_t *)(&frames[i].sample1), sizeof(int16_t));
-        m_file.read((uint8_t *)(&frames[i].sample2), sizeof(int16_t));
+        if (m_bit_depth == 8){
+            uint8_t sample;
+            m_file.read((uint8_t *)(&sample), 1);
+            sample -= 0x80;
+            frames[i].sample1 = ((int8_t)sample)<<8;
 
+            m_file.read((uint8_t *)(&sample), 1);
+            sample -= 0x80;
+            frames[i].sample2 = ((int8_t)sample)<<8;
+        } else {
+            m_file.read((uint8_t *)(&frames[i].sample1), m_bit_depth/8);
+            m_file.read((uint8_t *)(&frames[i].sample2), m_bit_depth/8);
+        }
     }
 }

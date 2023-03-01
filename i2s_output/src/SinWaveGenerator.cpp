@@ -7,6 +7,7 @@ SinWaveGenerator::SinWaveGenerator(int sample_rate, int frequency, float magnitu
     m_frequency = frequency;
     m_magnitude = magnitude;
     m_current_position = 0;
+    m_bit_depth = 16;
 }
 
 void SinWaveGenerator::getFrames(Frame_t *frames, int number_frames)

@@ -10,6 +10,7 @@ class WAVFileReader : public SampleSource
 private:
     int m_num_channels;
     int m_sample_rate;
+    int m_bit_depth;
     File m_file;
 
 public:
@@ -17,6 +18,7 @@ public:
     ~WAVFileReader();
     int sampleRate() { return m_sample_rate; }
     void getFrames(Frame_t *frames, int number_frames);
+    int bitDepth() { return m_bit_depth; }
 };
 
 #endif

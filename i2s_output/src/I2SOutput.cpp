@@ -43,8 +43,12 @@ void i2sWriterTask(void *param)
                         // write data to the i2s peripheral
                         i2s_write(output->m_i2sPort, buffer_position + (uint8_t *)frames,
                                   availableBytes, &bytesWritten, portMAX_DELAY);
+                        //i2s_write_expand(output->m_i2sPort, buffer_position + (uint8_t *)frames, availableBytes, 
+                        //          output->m_sample_generator->bitDepth(), 16, &bytesWritten, portMAX_DELAY);
+                        //Serial.printf("i2s_write_expand availableBytes %d bytesWritten %d\n", availableBytes, bytesWritten);
                         availableBytes -= bytesWritten;
                         buffer_position += bytesWritten;
+                        
                     }
                 } while (bytesWritten > 0);
             }

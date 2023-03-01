@@ -8,6 +8,7 @@ class SinWaveGenerator : public SampleSource
 private:
     int m_sample_rate;
     int m_frequency;
+    int m_bit_depth;
     float m_magnitude;
     float m_current_position;
 
@@ -17,6 +18,7 @@ public:
     // This should fill the samples buffer with the specified number of frames
     // A frame contains a LEFT and a RIGHT sample. Each sample should be signed 16 bits
     virtual void getFrames(Frame_t *frames, int number_frames);
+    int bitDepth() { return m_bit_depth; }
 };
 
 #endif
